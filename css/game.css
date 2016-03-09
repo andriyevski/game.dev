@@ -1,0 +1,128 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f1e7c9;
+    min-width: 1280px;
+
+}
+.main{
+    padding: 0;
+    margin: 0;
+    min-width: 1280px;
+    height: inherit;
+
+
+}
+.time{
+
+}
+.char_table {
+    float: left;
+    width: 258px;
+    height: 340px;
+    background-image: url("/img/main/char.png");
+
+}
+.char_menu{
+    height: 46px;
+    width: 200px;
+    /* margin: 0px 0 0 0; */
+    float: left;
+}
+.char_menu ul{
+    margin: 5px 0 0 21px;
+    float: left;
+}
+.char_menu ul li{
+    display: inline; /* Отображать как строчный элемент */
+
+
+}
+.char_menu ul li a{
+    text-decoration: none;/* Подсветка ссылок */
+}
+.VAL_rank{
+    float: left;
+}
+.val_rank ul{
+    list-style-type: none;
+    margin: 0 0 0 14px;
+    padding: 0 0 0 0;
+}
+.char_invent_on{
+    float: left;
+    width: 64px;
+    height: 250px;
+}
+.abbill_invent{
+    float: left;
+    margin: 13px 0 0 22px;
+}
+.char_class{
+    float: left;
+    margin: 4px 0 0 52px;
+}
+.char_invent{
+    float: left;
+    height: 213px;
+    width: 62px;
+}
+.char_invent_on{
+    float: left;
+    width: 61px;
+    height: 174px;
+}
+.char_inf_on{
+    float: left;
+    margin: 1px 0 0 8px;
+}
+.mana_kapla{
+
+    height: 12px;
+    width: 10px;
+    background-image: url("../img/main/persmanas.gif");
+}
+.mana{
+    background-image: url("../img/main/persmanat.gif");
+    float: left;
+    height: 160px;
+    width: 10px;
+
+}
+.avatar{
+    float: left;
+    height: 187px;
+    margin: -16px 0 0 0;
+    width: 162px;
+    background-image: url("../img/avatar/Gn.png");
+}
+.healt_div{
+    margin: -12px 0 0 0;
+    padding: 0 0 0 0;
+    float: left;
+    height: 171px;
+    width: 10px;
+
+}
+.halth_kapla{
+    float: left;
+    height: 12px;
+    width: 10px;
+    background-image: url("../img/main/perslifes.gif");
+}
+.health{
+    background-image: url("../img/main/perslife.gif");
+    height: 171px;
+    width: 10px;
+
+}
+.char_characteristics{
+    float: left;
+    margin: 5px;
+}
+.chat{
+    width: 100%;
+    height: 31px;
+    background-image: url("../img/main/chat_bg.png");
+}

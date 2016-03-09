@@ -1,0 +1,111 @@
+SetEnv TZ Europe/Kiev
+
+#Время на сервере
+AddDefaultCharset UTF-8
+# Установите максимальное время жизни сессии в секундах.
+# 604800 - 1 неделя.
+php_value session.gc_maxlifetime 604800
+# Установите время жизни cookie, которая сохраняет идентификатор сессии
+# в браузере пользователя.
+php_value session.cookie_lifetime 604800
+# Создайте отдельную директорию для хранения сессий вашего сайта,
+# например, domains/ВАШ_САЙТ/tmp. Это необходимо, чтобы PHP не удалял сессии сайта
+# при очистке старых сессий других сайтов, работающих на аккаунте.
+# Установите директорию хранения сессий для сайта с помощью session.save_path.
+Options +FollowSymlinks
+#Запрещаем загрузку файлов с внешних сайтов
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^$
+RewriteCond %{HTTP_REFERER} !^http://(www.)?game.dev/ [nc]
+#
+#Блокируем все запросы от нежелательных User Agents
+#Блокируем плохих ботов и роботов
+SetEnvIfNoCase user-Agent ^FrontPage [NC,OR]
+SetEnvIfNoCase user-Agent ^Java.* [NC,OR]
+SetEnvIfNoCase user-Agent ^Microsoft.URL [NC,OR]
+SetEnvIfNoCase user-Agent ^MSFrontPage [NC,OR]
+SetEnvIfNoCase user-Agent ^Offline.Explorer [NC,OR]
+SetEnvIfNoCase user-Agent ^[Ww]eb[Bb]andit [NC,OR]
+SetEnvIfNoCase user-Agent ^Zeus [NC]
+
+#
+#Запрещаем доступ для всех, кроме указанных IP-адресов
+ErrorDocument 403 http://www.game.dev
+#
+#Устанавливаем e-mail адрес по-умолчанию для администратора
+ServerSignature EMail
+SetEnv SERVER_ADMIN andriyevski@gmail.com
+#
+#Усиливаем кеширование
+FileETag MTime Size
+<ifmodule mod_expires.c>
+<filesmatch ".(jpg|gif|png|css|js)$">
+ExpiresActive on
+ExpiresDefault «access plus 1 year»
+</filesmatch>
+</ifmodule>
+#
+#Сжимаем компоненты сайта путем включения Gzip
+#чтобы Веб-сервер Apache сжимал все каскадные таблицы стилей и скрипты на языке JavaScript средствами модуля mod_deflate
+#AddOutputFilterByType DEFLATE text/plaintext/xml application/xml application/xhtml+xmltext/javascript text/css application/x-javascript
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE text/css
+  <IfModule mod_setenvif.c>
+    BrowserMatch ^Mozilla/4 gzip-only-text/html
+    BrowserMatch ^Mozilla/4\.0[678] no-gzip
+    BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  </IfModule>
+</IfModule>
+#
+#Убираем расширение файла из URL
+RewriteRule ^(([^/]+/)*[^.]+)$ /$1.php [L]
+
+#Включаем отслеживание сим-ссылок
+Options +FollowSymLinks
+#Запускаем url_rewriting
+RewriteEngine On
+#Блокируем все ссылки, содержащие <script>
+RewriteCond %{QUERY_STRING} (\<|%3C).*script.*(\>|%3E) [NC,OR]
+#Блокируем все скрипты, которые пытаются изменить переменные PHP Globals:
+RewriteCond %{QUERY_STRING} GLOBALS(=|\[|\%[0-9A-Z]{0,2}) [OR]
+#Блокируем все скрипты, которые пытаются изменить переменную _REQUEST:
+RewriteCond %{QUERY_STRING} _REQUEST(=|\[|\%[0-9A-Z]{0,2})
+#Перенаправляем все подобные на страницу с ошибкой 403 — запрещено
+RewriteRule ^(.*)$ index.php [F,L]
+#
+# Запретить другим сайтам использовать прямые ссылки на ваши картинки
+RewriteCond %{HTTP_REFERER} !^$
+# Дальше список разрешенных доменов
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www.)?game.dev.*$ [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www.)?game.dev:80.*$ [NC]
+# IP сайта (домена)
+RewriteCond %{HTTP_REFERER} !^http(s)?://111.111.111.111.*$ [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://111.111.111.111:80.*$ [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www.)?yandex.ru [NC]
+RewriteCond %{HTTP_REFERER} !^http(s)?://(www.)?google. [NC]
+# RewriteCond %{HTTP_REFERER} !^http(s)?://(www.)?домен_дружественного сайта.ru [NC]
+RewriteCond %{HTTP_REFERER} !search?q=cache [NC]
+# Форматы файлов, для которых устанавливается защита
+# Выводит ошибку 403
+# RewriteRule \.(jpe?g|bmp|gif|png|css|mov|swf|dcr|exe|rar|avi|vob|zip|pdf|txt|doc|flv|mp3|mp4)$ — [NC,F,L]
+# или показывает спецрисунок вместо указанного
+#RewriteRule .*\.(jpe?g|bmp|gif|png)$ files/images/nohotlink.jpg [NC,L]
+#
+# Allowed domains
+# Далее разрешенные домены
+SetEnvIfNoCase Referer «^http://(www\.)?game\.dev» local_ref=1
+# File extensions that you want to protect
+
+
+
+
+
+Options +Indexes
+ErrorDocument 404 http://game.dev/error/404.htm
+ErrorDocument 403 http://game.dev/error/403.htm
+ErrorDocument 400 http://game.dev/error/400.htm
+ErrorDocument 500 http://game.dev/error/500.htm
+
+
