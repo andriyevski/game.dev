@@ -6,36 +6,34 @@
  * Time: 22:22
  */
 session_start();
+session_id();
+require_once ('db.php');
 if (isset($_SESSION['login'])){
 
     $login = $_SESSION['login'];
-    $aWhatStat = "";
-    $aWhatSkill = "";
 
-    $mysql_host = "localhost";
-    $mysql_user = "root";
-    $mysql_password = "";
-    $my_database = "old-apeha.ru";
 
-    $link = mysql_connect($mysql_host, $mysql_user, $mysql_password)
+    $db = mysql_connect("localhost","root","")//соединение с базой данных при помощи функции mysql_connect()
+// Выбираем БД для коннекта!
     or die("Could not connect : " . mysql_error());
-    mysql_select_db($my_database) or die("Could not select database");
+    mysql_select_db("game",$db) or die("Could not select database");
 
-    $query = "SELECT b.BuildingName, u.Building FROM Players u inner join Buildings b on b.id = u.Building WHERE login='$login'";
-    $result = mysql_query($query) or die("Query failed : " . mysql_error());
+
+    $db = "SELECT b.BuildingName, u.Building FROM Players u inner join Buildings b on b.id = u.Building WHERE login='$login'";
+    $result = mysql_query($db) or die("Query failed : " . mysql_error());
     $aRow = mysql_fetch_array( $result);
     $aRoom = $aRow["BuildingName"];
     $aBuldingID = $aRow["Building"];
-    $query = "SELECT count(id) as CountPlayers from Players where Building = '$aBuldingID'";
-    $result = mysql_query($query) or die("Query failed : " . mysql_error());
+    $db = "SELECT count(id) as CountPlayers from Players where Building = '$aBuldingID' and SessionID > '0'";
+    $result = mysql_query($db) or die("Query failed : " . mysql_error());
     $aRow = mysql_fetch_array( $result);
     $aCountPlayers = $aRow["CountPlayers"];
 
 
 // пишем название комнаты и сколько там народу
     print('<b><center>'.$aRoom.'</b>&nbsp('.$aCountPlayers.') чел.</center><hr>');
-    $query = "SELECT login,Level from Players where Building = '$aBuldingID'";
-    $result = mysql_query($query) or die("Query failed : " . mysql_error());
+    $db = "SELECT login,Level from Players where Building = '$aBuldingID'and SessionID > '0'";
+    $result = mysql_query($db) or die("Query failed : " . mysql_error());
     while ($aRow = mysql_fetch_array($result)) {
         $aUser = $aRow["login"];
         $aLevel = $aRow["Level"];

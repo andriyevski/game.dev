@@ -13,6 +13,7 @@ for ($i = 0; $i < 100000; $i++) $sum += $i;//запускаем цикл для 
 //============Записываем скорость роботы скрипта в БД для статистики!!!!!=========//
 
 session_start();
+session_id();
 
 if (!isset($_SESSION['login'])){
     $login = ($_GET['login'] ? $_GET['login'] : $_SESSION['login']);

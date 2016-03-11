@@ -28,8 +28,9 @@ $login = $_SESSION['login'];
     float: left; margin: 6px 0 0 5px;">
     <img src="../img/main/chat_meonlyold.png" width="21" height="21" alt="Смена приватности" style="cursor: hand;
     float: left; margin: 6px 0 0 5px;">
-    <img src="../img/main/chat_out.png" width="21" height="21" alt="Смена приватности" style="cursor: hand;
-    float: left; margin: 6px 0 0 5px;" onclick="if (confirm('Выйти из игры?')) top.window.navigate('/main.phtml?exit=0.781520416407446')">
+<!--    <img src="../img/main/chat_out.png" width="21" height="21" alt="Смена приватности" style="cursor: hand;-->
+<!--    float: left; margin: 6px 0 0 5px;" onclick="if (confirm('Выйти из игры?')) top.window.navigate('../autoris/exit.php')">-->
+    <a href='/autoris/exit.php'>Выход</a>
 </div>
 
 
@@ -38,6 +39,6 @@ $login = $_SESSION['login'];
 </form>
 <?
 }else{
-    echo "<a href='#'>Выход</a>";
+    echo "<a href='/autoris/exit.php'>Выход</a>";
 }
 ?>

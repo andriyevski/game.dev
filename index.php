@@ -5,9 +5,9 @@
  * Date: 22.12.14
  * Time: 21:58
  */
-session_id();//получает и/или устанавливает id текущей сессии.
-session_start(); //запуск сессии
-print_r($_SESSION[id]=session_id());//записываем сессию_id в переменную
+session_start();
+session_id();
+echo $_SESSION['id']=session_id();
 //print_r($_SESSION[id]);
 //echo $lol= date('d:m:Y:h:i:s');
 //echo "</br>";
@@ -60,7 +60,7 @@ for ($i = 0; $i < 100000; $i++) $sum += $i;//запускаем цикл для 
 
                        if    (empty($_SESSION['login']) or empty($_SESSION['password']))
                        {
-                        // Проверяем, пусты ли пересменные логина и id пользователя
+                           // Проверяем, пусты ли пересменные логина и id пользователя
                            if (empty($_SESSION['login']) or empty($_SESSION['id']))
                            {
 

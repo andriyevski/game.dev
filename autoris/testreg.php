@@ -1,6 +1,6 @@
 <?php
-session_id();//Генерируеться сили используеться сессия
-session_start();// вся процедура работает на сессиях. Именно в ней хранятся данные пользователя, пока он находится на сайте. Очень важно запустить их в самом начале странички!!!
+
+
 
 
 //если значение в БД 1 тогда скрипт выполняеться и время будет писаться в БД
@@ -55,16 +55,27 @@ else {
 //если существует, то сверяем пароли
           if ($mixed_pass == $myrow['password']) {
           //если пароли совпадают, то запускаем пользователю сессию! Можете его поздравить, он вошел!
-          $_SESSION['login']=$myrow['login'];
 
-         // $_SESSION['id']= $myrow['id'];
-            $my_session = session_id();//эти данные очень часто используются, вот их и будет "носить с собой" вошедший пользователь
-          //echo "Вы успешно вошли на сайт! <a href='../../../index.php'>Главная страница</a>";
-              $query = "UPDATE Players SET SessionID='$my_session'  WHERE login ='$login'";//Обновляю запись в БД
+          if ($login==$myrow['login']) {
+              session_start();// вся процедура работает на сессиях. Именно в ней хранятся данные пользователя, пока он находится на сайте. Очень важно запустить их в самом начале странички!!!
+              $_SESSION['login']=$myrow['login'];
+              $_SESSION['password']=$myrow['password'];
+              $session_id = session_id();
+              print_r($_SESSION);
+              //$_SESSION['id'] = session_id();
+              //$session_id=$_SESSION['id'];
+              //$session_id;
+              // $_SESSION['id']= $myrow['id'];
+              //эти данные очень часто используются, вот их и будет "носить с собой" вошедший пользователь
+              //echo "Вы успешно вошли на сайт! <a href='../../../index.php'>Главная страница</a>";
+              $query = ("UPDATE Players SET SessionID='$session_id'  WHERE login ='$login'");//Обновляю запись в БД
               $result = mysql_query($query) or die("Query failed");//Выполняем скрипт или выводим ошибку!
-              $URL="http://game.dev";
-              header ("Location: $URL");//Переадресация...
-
+              $result = mysql_query("SELECT * FROM Players WHERE login='$login'",$db); //извлекаем из базы все данные о пользователе с введенным логином
+              $myrow = mysql_fetch_array($result);
+              echo "</br>".$myrow['SessionID'];
+              //$URL="http://game.dev";
+              //header ("Location: $URL");//Переадресация...
+          }
              }
 
        else {

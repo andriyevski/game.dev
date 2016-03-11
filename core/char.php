@@ -6,6 +6,7 @@
  * Time: 22:23
  */
 session_start();
+session_id();
 
 
 if (isset($_SESSION['login'])){
@@ -16,14 +17,10 @@ $aWhatStat = "";
 $aWhatSkill = "";
 // Узнаем характеристики персонажа
 
-$mysql_host = "localhost";
-$mysql_user = "root";
-$mysql_password = "";
-$my_database = "old-apeha.ru";
-
-$link = mysql_connect($mysql_host, $mysql_user, $mysql_password)
-or die("Could not connect : " . mysql_error());
-mysql_select_db($my_database) or die("Could not select database");
+    $db = mysql_connect("localhost","root","")//соединение с базой данных при помощи функции mysql_connect()
+// Выбираем БД для коннекта!
+    or die("Could not connect : " . mysql_error());
+    mysql_select_db("game",$db) or die("Could not select database");
 
 $query = "SELECT * FROM Players WHERE login='$login'";
 $result = mysql_query($query) or die("Query failed : " . mysql_error());
